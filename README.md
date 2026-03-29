@@ -1,39 +1,108 @@
 # Standup Siren
 
-Tiny local tray app for Linux and macOS that plays dramatic intro music shortly before your team meeting.
+Tiny local tray app for macOS and Linux that plays dramatic intro music shortly before your team meeting.
 
-## Goals
+Standup Siren is intentionally small:
+- no backend
+- no account system
+- no cloud dependency
+- tray-first UX
+- bundled default sound, with optional local override later
 
-- local app, not web-hosted
-- tiny codebase
-- Linux + macOS
-- open source under MIT
-- built with Tauri + plain HTML/CSS/JS
-- simple daily schedule
-- starts with the computer and sits quietly until it's time
+## Status
 
-## MVP
+Early scaffold. The repo currently has the app shell and tray structure in place. Scheduler, persistence, sound playback, and autostart are being added incrementally.
 
-- tray-first app with tiny preferences window
-- set meeting time (daily)
-- choose how many seconds before meeting to play (default: 10)
+## 1) Run locally
+
+### Prerequisites
+
+You need a normal Tauri development setup:
+- Node.js 20+
+- Rust stable toolchain
+- Tauri system dependencies for your OS
+
+Official setup docs:
+- <https://v2.tauri.app/start/prerequisites/>
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start in development mode
+
+```bash
+npm run dev
+```
+
+This should launch the app locally with the current tray/window scaffold.
+
+## 2) Build locally
+
+Build a local production bundle with:
+
+```bash
+npm run build
+```
+
+Tauri will produce platform-specific desktop artifacts.
+
+## 3) How to use the built app / what artifacts Tauri provides
+
+After a successful build, artifacts are produced under:
+
+```bash
+src-tauri/target/release/bundle/
+```
+
+Typical outputs depend on platform:
+
+### macOS
+Usually one or more of:
+- `.app`
+- `.dmg`
+
+### Linux
+Usually one or more of:
+- `.deb`
+- `.AppImage`
+- executable bundle output depending on installed tooling
+
+You can install/open the artifact for your platform and then run Standup Siren like a normal desktop app.
+
+## Planned behavior
+
+MVP target:
+- tray-first app
+- tiny preferences window
+- daily meeting time
+- configurable offset in seconds
 - bundled default dramatic sound
-- optional power-user override via config dir ring file
-- enable/disable launch on startup
-- test sound button
+- optional config-dir override for custom sound
+- local config persistence
+- launch on login
 - show next trigger time
+- test sound button
 
-## Architecture
+Later:
+- local `.ics` calendar import
+- event title matching
+- releases and tiny download landing page
 
-- **Frontend:** tiny static HTML/CSS/JS settings UI
-- **Shell:** Tauri with tray support
-- **Scheduling:** lightweight JS timer with next-run calculation
-- **Persistence:** small JSON config
-- **Audio:** bundled default sound with config-dir override
+## Sound override plan
 
-## Why this stack
+Default users should not need to configure anything.
 
-This keeps source size very small while still shipping native-ish local apps on macOS and Linux.
+Later, advanced users will be able to override the bundled sound by placing a file such as `ring.mp3` in the app config directory.
+
+## Development notes
+
+- Keep dependencies small.
+- Keep frontend minimal.
+- Prefer simple local logic over complicated integration.
+- Test locally before pushing.
 
 ## License
 
