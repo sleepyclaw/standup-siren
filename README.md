@@ -27,39 +27,30 @@ sudo apt-get update && sudo apt-get install -y \
   libgirepository1.0-dev ffmpeg
 ```
 
-### Create virtualenv and install Python deps
+### Create env and install Python deps with uv
 
 ```bash
-python3 -m venv .venv
-. .venv/bin/activate
-pip install -U pip
-pip install -r requirements.txt
+uv sync
 ```
 
 ### Run headless self-test
 
 ```bash
-python -m standup_siren.app --init-config
-python -m standup_siren.app --self-test --verbose
+uv run standup-siren --init-config
+uv run standup-siren --self-test --verbose
 ```
 
 ### Test sound playback
 
 ```bash
-python -m standup_siren.app --test-sound --verbose
+uv run standup-siren --test-sound --verbose
 ```
 
 ## 2) Build locally
 
-Planned packaging path: PyInstaller.
+Planned packaging path: PyInstaller driven via `uv`.
 
-Prototype build command will look like:
-
-```bash
-pyinstaller standup-siren.spec
-```
-
-That packaging file is not finalized yet in this commit.
+Packaging config is not finalized yet in this commit, but development now uses `uv` instead of pip/venv instructions.
 
 ## 3) How to use the built app / expected artifacts
 

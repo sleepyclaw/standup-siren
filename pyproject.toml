@@ -1,0 +1,17 @@
+[project]
+name = "standup-siren"
+version = "0.1.0"
+description = "Tiny local tray-style app for Linux and macOS that plays dramatic intro music shortly before your team meeting."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "pystray==0.19.5",
+  "Pillow==11.3.0",
+]
+
+[project.scripts]
+standup-siren = "standup_siren.app:main"
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
