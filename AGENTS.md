@@ -157,13 +157,15 @@ Working now:
 - real tray/menu app skeleton exists
 - tiny Tk settings window exists
 - background scheduler loop updates trigger state and fires sound while running
+- PyInstaller bundle build script exists
+- packaged binary passes headless `--self-test`
 - development uses `uv`
 
 Not finished yet:
 - verify tray icon works in a real desktop session
 - harden duplicate-play protection across wake/resume/restart
 - autostart integration
-- packaging configuration
+- macOS-specific app packaging polish
 - `.ics` import
 
 ## Verified facts from development so far
@@ -171,6 +173,8 @@ Not finished yet:
 - `uv sync` works on the target machine
 - `uv run standup-siren --init-config` works
 - `uv run standup-siren --self-test --verbose` works
+- `./scripts/build_bundle.sh` produces `dist/standup-siren/`
+- `./dist/standup-siren/standup-siren --self-test --verbose` works in headless context
 - headless CLI modes remain usable after moving `pystray` import inside tray runtime
 - sound playback path can launch a local player when available
 - GUI tray testing is still limited by headless session context, not by immediate Python stack incompatibility

@@ -33,9 +33,11 @@ Update this file when priorities change or when a task is completed.
 - [ ] macOS autostart support
 
 ### 6. Packaging
-- [ ] choose PyInstaller strategy
-- [ ] add build config
-- [ ] document build artifacts clearly
+- [x] choose PyInstaller strategy
+- [x] add build config
+- [x] document build artifacts clearly
+- [x] smoke-test packaged binary in headless `--self-test` mode
+- [ ] validate packaged tray app in a real desktop session
 
 ### 7. Calendar follow-up
 - [ ] design local `.ics` import flow
