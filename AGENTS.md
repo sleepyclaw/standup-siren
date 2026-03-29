@@ -154,12 +154,14 @@ Working now:
 - bundled sound file exists
 - sound resolution logic exists
 - headless self-test works
+- real tray/menu app skeleton exists
+- tiny Tk settings window exists
+- background scheduler loop updates trigger state and fires sound while running
 - development uses `uv`
 
 Not finished yet:
-- actual tray icon lifecycle
-- settings window
-- background timer loop that fires automatically
+- verify tray icon works in a real desktop session
+- harden duplicate-play protection across wake/resume/restart
 - autostart integration
 - packaging configuration
 - `.ics` import
@@ -169,8 +171,9 @@ Not finished yet:
 - `uv sync` works on the target machine
 - `uv run standup-siren --init-config` works
 - `uv run standup-siren --self-test --verbose` works
+- headless CLI modes remain usable after moving `pystray` import inside tray runtime
 - sound playback path can launch a local player when available
-- GUI tray testing was limited by headless session context, not by immediate Python stack incompatibility
+- GUI tray testing is still limited by headless session context, not by immediate Python stack incompatibility
 
 ## How to run the project now
 

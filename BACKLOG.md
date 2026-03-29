@@ -6,22 +6,22 @@ Update this file when priorities change or when a task is completed.
 ## Current priority order
 
 ### 1. Real tray prototype
-- [ ] wire actual `pystray` icon lifecycle
+- [x] wire actual `pystray` icon lifecycle
 - [ ] verify tray icon works in a real desktop session
-- [ ] add basic menu entries: open settings, test sound, quit
+- [x] add basic menu entries: open settings, test sound, quit
 
 ### 2. Tiny settings UI
-- [ ] add a small settings window
-- [ ] edit meeting time
-- [ ] edit seconds-before offset
-- [ ] save config locally
-- [ ] show next trigger time
+- [x] add a small settings window
+- [x] edit meeting time
+- [x] edit seconds-before offset
+- [x] save config locally
+- [x] show next trigger time
 
 ### 3. Scheduler loop
-- [ ] background loop computes next trigger
-- [ ] play sound once per event/day
+- [x] background loop computes next trigger
+- [x] play sound once per event/day while app remains running
 - [ ] avoid duplicate playback after wake/resume/restart
-- [ ] expose useful verbose logs
+- [x] expose useful verbose logs
 
 ### 4. Sound behavior
 - [ ] keep bundled default sound

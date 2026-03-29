@@ -12,7 +12,9 @@ Current repo state includes:
 - scheduler logic
 - bundled default ring
 - headless self-test mode
-- early Python app scaffold
+- real tray app skeleton with menu entries
+- tiny Tk settings window for meeting time + offset
+- background scheduler loop that updates next trigger text
 
 For contributor/internal project context, see `AGENTS.md` and `BACKLOG.md`.
 
