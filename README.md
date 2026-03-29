@@ -1,108 +1,93 @@
 # Standup Siren
 
-Tiny local tray app for macOS and Linux that plays dramatic intro music shortly before your team meeting.
+Tiny local tray-style app for Linux and macOS that plays dramatic intro music shortly before your team meeting.
 
-Standup Siren is intentionally small:
-- no backend
-- no account system
-- no cloud dependency
-- tray-first UX
-- bundled default sound, with optional local override later
+This project is now targeting a Debian-11-friendly Python implementation instead of Tauri, because current Tauri Linux requirements are a bad fit for Bullseye.
 
 ## Status
 
-Early scaffold. The repo currently has the app shell and tray structure in place. Scheduler, persistence, sound playback, and autostart are being added incrementally.
+Prototype in progress.
+Current repo state includes:
+- config handling
+- scheduler logic
+- bundled default ring
+- headless self-test mode
+- early Python app scaffold
+
+Tray GUI wiring is the next step.
 
 ## 1) Run locally
 
-### Prerequisites
-
-You need a normal Tauri development setup:
-- Node.js 20+
-- Rust stable toolchain
-- Tauri system dependencies for your OS
-
-Official setup docs:
-- <https://v2.tauri.app/start/prerequisites/>
-
-### Install dependencies
+### Debian 11 / Linux prerequisites
 
 ```bash
-npm install
+sudo apt-get update && sudo apt-get install -y \
+  python3-venv python3-pip python3-tk python3-pil python3-pil.imagetk \
+  python3-gi python3-gi-cairo gir1.2-gtk-3.0 libcairo2-dev \
+  libgirepository1.0-dev ffmpeg
 ```
 
-### Start in development mode
+### Create virtualenv and install Python deps
 
 ```bash
-npm run dev
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
 ```
 
-This should launch the app locally with the current tray/window scaffold.
+### Run headless self-test
+
+```bash
+python -m standup_siren.app --init-config
+python -m standup_siren.app --self-test --verbose
+```
+
+### Test sound playback
+
+```bash
+python -m standup_siren.app --test-sound --verbose
+```
 
 ## 2) Build locally
 
-Build a local production bundle with:
+Planned packaging path: PyInstaller.
+
+Prototype build command will look like:
 
 ```bash
-npm run build
+pyinstaller standup-siren.spec
 ```
 
-Tauri will produce platform-specific desktop artifacts.
+That packaging file is not finalized yet in this commit.
 
-## 3) How to use the built app / what artifacts Tauri provides
+## 3) How to use the built app / expected artifacts
 
-After a successful build, artifacts are produced under:
-
-```bash
-src-tauri/target/release/bundle/
-```
-
-Typical outputs depend on platform:
+Planned artifacts:
 
 ### macOS
-Usually one or more of:
 - `.app`
-- `.dmg`
+- possibly `.dmg` later
 
 ### Linux
-Usually one or more of:
-- `.deb`
-- `.AppImage`
-- executable bundle output depending on installed tooling
+- standalone folder bundle from PyInstaller
+- one-file build optional later if it behaves well
 
-You can install/open the artifact for your platform and then run Standup Siren like a normal desktop app.
+## Config
 
-## Planned behavior
+Config file:
 
-MVP target:
-- tray-first app
-- tiny preferences window
-- daily meeting time
-- configurable offset in seconds
-- bundled default dramatic sound
-- optional config-dir override for custom sound
-- local config persistence
-- launch on login
-- show next trigger time
-- test sound button
+```bash
+~/.config/standup-siren/config.json
+```
 
-Later:
-- local `.ics` calendar import
-- event title matching
-- releases and tiny download landing page
+Custom sound override path:
 
-## Sound override plan
+```bash
+~/.config/standup-siren/ring.mp3
+```
 
-Default users should not need to configure anything.
-
-Later, advanced users will be able to override the bundled sound by placing a file such as `ring.mp3` in the app config directory.
-
-## Development notes
-
-- Keep dependencies small.
-- Keep frontend minimal.
-- Prefer simple local logic over complicated integration.
-- Test locally before pushing.
+If no override exists, the bundled default ring is used.
 
 ## License
 
