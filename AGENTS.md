@@ -245,10 +245,10 @@ When reporting progress to the human:
 
 After completing meaningful tasks, future agents should usually update at least one of:
 - `AGENTS.md` — durable context, decisions, traps, constraints, current state
-- `TASKS.md` — current execution queue / checklist / priorities
+- `BACKLOG.md` — current execution queue / checklist / priorities
 - `README.md` — human-facing usage or build instructions when behavior changes
 
 Rule of thumb:
 - if the human would need to know how to run/use it → update `README.md`
 - if another agent would need to know why/how/what changed → update `AGENTS.md`
-- if the next chunk of work changed → update `TASKS.md`
+- if the next chunk of work changed → update `BACKLOG.md`

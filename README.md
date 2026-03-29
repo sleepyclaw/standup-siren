@@ -14,7 +14,7 @@ Current repo state includes:
 - headless self-test mode
 - early Python app scaffold
 
-Tray GUI wiring is the next step.
+For contributor/internal project context, see `AGENTS.md` and `BACKLOG.md`.
 
 ## 1) Run locally
 
