@@ -3,6 +3,24 @@
 This file is for future agents working on this repository.
 It explains what the app is, why the stack changed, what constraints matter, and what to do next.
 
+## Maintenance rule for future agents
+
+This file is **not static**.
+If you work on the project, you should update `AGENTS.md` when any of the following changes:
+
+- architecture decisions
+- stack choices
+- platform constraints
+- confirmed build/runtime behavior
+- important user preferences
+- current status / next recommended steps
+- known traps, mistakes, or dead ends
+
+Think of `AGENTS.md` as the handoff brain for the repo.
+Do not leave critical context trapped only in chat history or your own head.
+
+When you finish meaningful work, update this file briefly so the next agent can continue with minimal archaeology.
+
 ## What this project is
 
 **Standup Siren** is a tiny local desktop utility that plays dramatic intro music shortly before a daily team meeting.
@@ -222,3 +240,15 @@ When reporting progress to the human:
 - prefer GitHub-visible progress
 - mention what was actually tested versus what is still theoretical
 - do not bluff runtime validation
+
+## Updating project state after work
+
+After completing meaningful tasks, future agents should usually update at least one of:
+- `AGENTS.md` — durable context, decisions, traps, constraints, current state
+- `TASKS.md` — current execution queue / checklist / priorities
+- `README.md` — human-facing usage or build instructions when behavior changes
+
+Rule of thumb:
+- if the human would need to know how to run/use it → update `README.md`
+- if another agent would need to know why/how/what changed → update `AGENTS.md`
+- if the next chunk of work changed → update `TASKS.md`
