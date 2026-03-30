@@ -66,6 +66,11 @@ Preferred behavior:
 Expected override path on Linux:
 - `~/.config/standup-siren/ring.mp3`
 
+Important current fact:
+- the human has uploaded a **real song** to use as the override sound
+- do **not** overwrite or replace the user-provided `ring.mp3` in the config directory
+- the real song is about **58 seconds long**, so future scheduling/UI logic must not assume the sound is a tiny 1-2 second beep
+
 ### 3) Scheduling direction
 Current MVP target:
 - one daily meeting time
@@ -259,3 +264,9 @@ Rule of thumb:
 - if the human would need to know how to run/use it → update `README.md`
 - if another agent would need to know why/how/what changed → update `AGENTS.md`
 - if the next chunk of work changed → update `BACKLOG.md`
+
+## User-provided asset warning
+
+The config-directory override sound is user data.
+Future agents must treat it as user-owned local content and must not overwrite it during testing, bundling, migrations, or helper scripts.
+If a script needs to create an example override, it should use a different filename and never replace `ring.mp3` silently.

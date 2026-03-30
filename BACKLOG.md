@@ -54,3 +54,9 @@ Update this file when priorities change or when a task is completed.
 - [x] repo pivoted from Tauri to Python prototype
 - [x] switched Python workflow to `uv`
 - [x] added agent-oriented project handoff in `AGENTS.md`
+
+
+## Important notes
+- The user has already uploaded a real override song as `ring.mp3` in the config directory.
+- Do not overwrite that file.
+- The song is about 58 seconds long; future UX/scheduling should account for that.
