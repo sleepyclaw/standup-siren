@@ -4,14 +4,9 @@ set -eu
 ROOT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT_DIR"
 
-case "$(uname -s)" in
-  Darwin)
-    DATA_SEP=';'
-    ;;
-  *)
-    DATA_SEP=':'
-    ;;
-esac
+# PyInstaller expects SOURCE:DEST on macOS and Linux.
+# Only Windows uses a semicolon separator.
+DATA_SEP=':'
 
 uv run pyinstaller \
   --noconfirm \
