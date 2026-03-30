@@ -14,7 +14,15 @@ from typing import Any
 from PIL import Image, ImageDraw
 
 from .audio import play_ring, resolve_ring_path
-from .config import Settings, config_path, load_settings, save_settings
+from .config import (
+    Settings,
+    config_dir,
+    config_path,
+    config_readme_path,
+    ensure_config_support_files,
+    load_settings,
+    save_settings,
+)
 from .scheduler import next_trigger
 
 
@@ -46,6 +54,7 @@ class StandupSirenApp:
                 pystray.MenuItem(lambda item: self.next_status_text, None, enabled=False),
                 pystray.Menu.SEPARATOR,
                 pystray.MenuItem(self._settings_menu_label, self._on_open_settings),
+                pystray.MenuItem("Config help", self._on_open_config_help),
                 pystray.MenuItem("Test sound", self._on_test_sound),
                 pystray.MenuItem("Quit", self._on_quit),
             ),
@@ -122,15 +131,12 @@ class StandupSirenApp:
         thread = threading.Thread(target=self._settings_window_mainloop, daemon=True)
         thread.start()
 
-    def _open_config_for_macos(self) -> None:
-        path = config_path()
-        path.parent.mkdir(parents=True, exist_ok=True)
-        if not path.exists():
-            save_settings(self.settings)
-        commands = [
-            ["open", "-R", str(path)],
-            ["open", str(path.parent)],
-        ]
+    def _open_path_in_file_manager(self, path: str) -> None:
+        commands = []
+        if sys.platform == "darwin":
+            commands = [["open", path]]
+        else:
+            commands = [["xdg-open", path]]
         last_error: Exception | None = None
         for cmd in commands:
             try:
@@ -138,7 +144,20 @@ class StandupSirenApp:
                 return
             except Exception as exc:  # noqa: BLE001
                 last_error = exc
-        raise RuntimeError(f"failed to open config in Finder: {last_error}")
+        raise RuntimeError(f"failed to open path: {last_error}")
+
+    def _on_open_config_help(self, icon: Any | None = None, item: Any | None = None) -> None:
+        ensure_config_support_files()
+        readme = config_readme_path()
+        target = str(readme if sys.platform == "darwin" else config_dir())
+        self._open_path_in_file_manager(target)
+
+    def _open_config_for_macos(self) -> None:
+        ensure_config_support_files()
+        path = config_path()
+        if not path.exists():
+            save_settings(self.settings)
+        self._open_path_in_file_manager(str(path.parent))
 
     def _settings_window_mainloop(self) -> None:
         root = tk.Tk()
