@@ -61,7 +61,7 @@ def ensure_config_support_files() -> None:
 @dataclass
 class Settings:
     meeting_time: str = "10:00"
-    offset_seconds: int = 10
+    offset_seconds: int = 58
     launch_on_login: bool = False
     verbose: bool = False
 
