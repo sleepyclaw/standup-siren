@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
+import sys
 import threading
 import time
 import tkinter as tk
@@ -12,7 +14,7 @@ from typing import Any
 from PIL import Image, ImageDraw
 
 from .audio import play_ring, resolve_ring_path
-from .config import Settings, load_settings, save_settings
+from .config import Settings, config_path, load_settings, save_settings
 from .scheduler import next_trigger
 
 
@@ -43,7 +45,7 @@ class StandupSirenApp:
             menu=pystray.Menu(
                 pystray.MenuItem(lambda item: self.next_status_text, None, enabled=False),
                 pystray.Menu.SEPARATOR,
-                pystray.MenuItem("Open settings", self._on_open_settings),
+                pystray.MenuItem(self._settings_menu_label, self._on_open_settings),
                 pystray.MenuItem("Test sound", self._on_test_sound),
                 pystray.MenuItem("Quit", self._on_quit),
             ),
@@ -107,12 +109,36 @@ class StandupSirenApp:
             return
         root.after(0, func)
 
+    def _settings_menu_label(self, item: Any | None = None) -> str:
+        return "Open config" if sys.platform == "darwin" else "Open settings"
+
     def _on_open_settings(self, icon: Any | None = None, item: Any | None = None) -> None:
+        if sys.platform == "darwin":
+            self._open_config_for_macos()
+            return
         if self.settings_window is not None:
             self._run_on_tk_thread(lambda: (self.settings_window.deiconify(), self.settings_window.lift(), self.settings_window.focus_force()))
             return
         thread = threading.Thread(target=self._settings_window_mainloop, daemon=True)
         thread.start()
+
+    def _open_config_for_macos(self) -> None:
+        path = config_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if not path.exists():
+            save_settings(self.settings)
+        commands = [
+            ["open", "-R", str(path)],
+            ["open", str(path.parent)],
+        ]
+        last_error: Exception | None = None
+        for cmd in commands:
+            try:
+                subprocess.Popen(cmd)
+                return
+            except Exception as exc:  # noqa: BLE001
+                last_error = exc
+        raise RuntimeError(f"failed to open config in Finder: {last_error}")
 
     def _settings_window_mainloop(self) -> None:
         root = tk.Tk()
